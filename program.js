@@ -57,26 +57,67 @@
 
 // TASK 5
 
+// var express = require("express");
+// var app = express();
+// var port = process.argv[2];
+// var contentPath = process.argv[3];
+// var options = {
+//   extensions: 'html'
+// }
+//
+// app.use(require('stylus').middleware(contentPath));
+// app.use(express.static(contentPath));
+//
+// app.listen(port);
+
+// TASK 6
+
+// var express = require("express");
+// var app = express();
+// var port = process.argv[2];
+// // var contentPath = process.argv[3];
+// var crypto = require('crypto');
+//
+// app.put('/message/:id',function(req,res){
+//   var id = req.params.id;
+//   res.send(crypto.createHash('sha1')
+// .update(new Date().toDateString() + id)
+//       .digest('hex'))
+// })
+//
+// app.listen(port);
+
+// TASK 7
+
+// var express = require("express");
+// var app = express();
+// var port = process.argv[2];
+//
+// app.get('/search',function(req,res){
+//   // console.log(req.query);
+//   res.send(req.query)
+// })
+//
+// app.listen(port);
+
+// TASK 8
+
 var express = require("express");
+var fs = require("fs");
 var app = express();
 var port = process.argv[2];
-var contentPath = process.argv[3];
-var options = {
-  extensions: 'html'
-}
+var fileName = process.argv[3];
+var buf = null;
 
-// console.log(contentPath);
+fs.readFile(fileName, function(err, buffer){
+  if(err) throw err;
+  buf = buffer;
+  var bufStr = buf.toString();
+  var returnedJSON = JSON.parse(buf);
 
-app.use(require('stylus').middleware(contentPath));
-app.use(express.static(contentPath));
+  app.get('/books',function(req,res){
+    res.json(returnedJSON);
+  })
+});
 
 app.listen(port);
-
-// var express = require('express')
-// var app = express()
-//
-// app.use(require('stylus').middleware(process.argv[3]+ "/*.styl" ));
-// // app.use(express.static(process.argv[3]));
-//
-//
-// app.listen(process.argv[2])
